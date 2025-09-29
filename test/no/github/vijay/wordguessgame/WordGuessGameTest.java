@@ -13,7 +13,7 @@ class WordGuessGameTest {
         Feedback[] feedback = game.guess("Wxxxx");
 
         assertEquals(Feedback.GREEN, feedback[0]); // W is correct and in position
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < Constants.WORD_LENGTH; i++) {
             assertEquals(Feedback.GRAY, feedback[i]);
         }
     }
@@ -24,7 +24,7 @@ class WordGuessGameTest {
         Feedback[] feedback = game.guess("Txxxx");
 
         assertEquals(Feedback.YELLOW, feedback[0]); // T exists but wrong position
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < Constants.WORD_LENGTH; i++) {
             assertEquals(Feedback.GRAY, feedback[i]);
         }
     }
@@ -51,7 +51,7 @@ class WordGuessGameTest {
         Feedback[] feedback = game.guess("TTBTT");
         
         assertEquals(Feedback.YELLOW, feedback[0]);
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < Constants.WORD_LENGTH; i++) {
             assertEquals(Feedback.GRAY, feedback[i]);
         }
     }

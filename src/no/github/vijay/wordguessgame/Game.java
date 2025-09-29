@@ -14,14 +14,16 @@ public class Game {
 		
 		Iterator<String> iterator = words.iterator();
 		while(iterator.hasNext()) {
-			if(iterator.next().length() != 5) {
+			if(iterator.next().length() != Constants.WORD_LENGTH) {
 				iterator.remove();
 			}
 		}
 		
 		
 		Random random = new Random();
-		
+		if (words.isEmpty()) {
+		    throw new IllegalStateException("Word list is empty! Please check words.txt.");
+		}
 		String answer = words.get(random.nextInt(words.size()));
 		WordGuessGame game = new WordGuessGame(answer);
 		printIntroduction();
@@ -29,8 +31,8 @@ public class Game {
 		try (Scanner sc = new Scanner(System.in)) {
 			int attempts = 0;
 			
-			while(attempts < 5) {
-				System.out.println("Enter guess (" + (5 - attempts) + " left): ");
+			while(attempts < Constants.MAX_GUESS) {
+				System.out.println("Enter guess (" + (Constants.MAX_GUESS - attempts) + " left): ");
 				String guess = sc.nextLine().trim();
 				
 				try {
@@ -53,7 +55,7 @@ public class Game {
 	}
 
 	private static void printFeedback(String guess, Feedback[] feedback) {
-		for(int i = 0; i < 5; i++) {
+		for(int i = 0; i < Constants.MAX_GUESS; i++) {
 			char ch = guess.toUpperCase().charAt(i);
 			
 			switch(feedback[i]) {
