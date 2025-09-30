@@ -5,6 +5,4 @@ pizza
 eagle
 fruit
 paper
-stone
-chair
-light
+buter
