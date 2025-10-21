@@ -51,7 +51,7 @@ A random 5-letter word is chosen from `words.txt` when the game starts.
 
 1. Open the project in **Eclipse** (or any Java IDE).
 2. Ensure **Java 17** is installed.
-3. Place the `words.txt` file in the same folder as `Game.java`.
+3. Place the `words.txt` file in the resource folder.
 4. Run `Game.java` as a **Java Application**.
 
 ### Running Tests

@@ -1,7 +1,9 @@
 package no.github.vijay.wordguessgame;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -74,5 +76,31 @@ class WordGuessGameTest {
         for (Feedback f : feedback) {
             assertEquals(Feedback.GRAY, f);
         }
+    }
+    
+    @Test
+    void testMaxAttempts() {
+        WordGuessGame game = new WordGuessGame("WATER");
+        int maxGuesses = 5;
+
+        for (int i = 0; i < maxGuesses; i++) {
+            Feedback[] feedback = game.guess("PLUMB"); // wrong guess
+            assertNotNull(feedback);
+        }
+    }
+    
+    @Test
+    void testWordListLoading() throws IOException {
+        List<String> words = WordLoader.loadWords("words.txt");
+        // Filter only 5-letter words
+        words.removeIf(word -> word.length() != Constants.WORD_LENGTH);
+        assertFalse(words.isEmpty(), "Word list must contain at least one 5-letter word");
+    }
+    
+    @Test
+    void testInvalidGuessLength() {
+        WordGuessGame game = new WordGuessGame("WATER");
+        assertThrows(IllegalArgumentException.class, () -> game.guess("TOO"));
+        assertThrows(IllegalArgumentException.class, () -> game.guess("TOOLONG"));
     }
 }

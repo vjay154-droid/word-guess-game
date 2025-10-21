@@ -1,22 +1,18 @@
 package no.github.vijay.wordguessgame;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Game {
 	
-	private static final String GREEN_SYMBOL = "[ %s ]";
-    private static final String YELLOW_SYMBOL = "( %s )";
-    private static final String GRAY_SYMBOL = " %s ";
+	public static final String GREEN_SYMBOL = "\u001B[32m";
+	public static final String YELLOW_SYMBOL = "\u001B[33m";
+	public static final String GRAY_SYMBOL = "\u001B[37m";
     
 	public static void main(String[] args) throws IOException {
-		List<String> words = loadWords("words.txt");
+		List<String> words = WordLoader.loadWords("words.txt");
 		String answer = pickRandomWord(words);
 
         WordGuessGame game = new WordGuessGame(answer);
@@ -28,27 +24,7 @@ public class Game {
 	private static String pickRandomWord(List<String> words) {
         return words.get(new Random().nextInt(words.size()));
     }
-	
-	private static List<String> loadWords(String resourcePath) throws IOException {
-		try (InputStream is = Game.class.getClassLoader().getResourceAsStream(resourcePath)) {
-	        if (is == null) {
-	            throw new IllegalStateException("Resource file not found: " + resourcePath);
-	        }
-
-	        List<String> words = new BufferedReader(new InputStreamReader(is))
-	                .lines()
-	                .collect(Collectors.toList());
-
-	        words.removeIf(word -> word.length() != Constants.WORD_LENGTH);
-
-	        if (words.isEmpty()) {
-	            throw new IllegalStateException("Word list is empty after filtering!");
-	        }
-
-	        return words;
-	    }
-	}
-	
+		
 	private static void playGame(WordGuessGame game, String answer) {
         try (Scanner sc = new Scanner(System.in)) {
             int attempts = 0;
@@ -80,13 +56,13 @@ public class Game {
             char ch = Character.toUpperCase(guess.charAt(i));
             switch (feedback[i]) {
                 case GREEN:
-                    sb.append(String.format(GREEN_SYMBOL, ch));
+                    sb.append(GREEN_SYMBOL).append(ch).append(GREEN_SYMBOL);
                     break;
                 case YELLOW:
-                    sb.append(String.format(YELLOW_SYMBOL, ch));
+                    sb.append(YELLOW_SYMBOL).append(ch).append(YELLOW_SYMBOL);
                     break;
                 case GRAY:
-                    sb.append(String.format(GRAY_SYMBOL, ch));
+                    sb.append(GRAY_SYMBOL).append(ch).append(GRAY_SYMBOL);
                     break;
             }
         }
